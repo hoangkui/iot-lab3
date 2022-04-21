@@ -7,16 +7,15 @@ import re
 import serial.tools.list_ports
 
 mess = ""
-# bbc_port = "COM7"
-# if len(bbc_port) > 0:
-#     ser = serial.Serial(port=bbc_port, baudrate=115200)
+bbc_port = "COM7"
+if len(bbc_port) > 0:
+    ser = serial.Serial(port=bbc_port, baudrate=115200)
 
 def processData(data):
     data = data.replace("!", "")
     data = data.replace("#", "")
     splitData = data.split(":")
     print(splitData)
-    splitData
     collect_data = {splitData[1]:splitData[2] }
     client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
 def readSerial():
@@ -47,12 +46,6 @@ def recv_message(client, userdata, message):
     temp_data = {'value': True}
     cmd=1
     try:
-        # jsonobj = json.loads(message.payload)
-        # # if jsonobj['method'] == "setValue":
-        # temp_data['value'] = jsonobj['params']
-        # client.publish('v1/devices/me/attributes', json.dumps(temp_data), 1)
-        
-        
         jsonobj = json.loads(message.payload)
         if jsonobj['method'] == "setLED":
             temp_data= {"valueLED":jsonobj['params']}
@@ -66,20 +59,10 @@ def recv_message(client, userdata, message):
             if jsonobj['params']:
                 cmd=2
             else: cmd=3
-        # jsonobj = json.loads(message.payload)
-        # if jsonobj['method'] == "setLED":
-        #     temp_data["value"]=jsonobj['params']
-        #     client.publish('v1/devices/me/valueLED', json.dumps(temp_data), 1)
-        # elif jsonobj['method'] == "setFAN":
-        #     temp_data["value"]=jsonobj['params']
-        #     client.publish('v1/devices/me/attributes', json.dumps(temp_data), 1)
-
-            # temp_data['value'] = jsonobj['params']
-
     except:
         pass
-    # if len(bbc_port) > 0:
-    #     ser.write((str(cmd)+"#").encode())
+    if len(bbc_port) > 0:
+        ser.write((str(cmd)+"#").encode())
 
 def connected(client, usedata, flags, rc):
     if rc == 0:
