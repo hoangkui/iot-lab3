@@ -7,7 +7,7 @@ import re
 import serial.tools.list_ports
 
 mess = ""
-bbc_port = "COM7"
+bbc_port = "COM8"
 if len(bbc_port) > 0:
     ser = serial.Serial(port=bbc_port, baudrate=115200)
 
@@ -119,17 +119,17 @@ longitude=106.6297
 latitude=10.8231
 x=True
 while True:
-    collect_data = {'temperature': temp, 'humidity': humi, 'light':light_intesity,'longitude':longitude,'latitude':latitude}
-    temp += 1
-    humi += 1
-    longitude,latitude=getLocation()
-    light_intesity += 1
-    client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
+    # collect_data = {'temperature': temp, 'humidity': humi, 'light':light_intesity,'longitude':longitude,'latitude':latitude}
+    # temp += 1
+    # humi += 1
+    # longitude,latitude=getLocation()
+    # light_intesity += 1
+    # client.publish('v1/devices/me/telemetry', json.dumps(collect_data), 1)
     # print(collect_data)
     # Lab 1
 
 
 
-    # if len(bbc_port)>0:
-    #     readSerial()
+    if len(bbc_port)>0:
+        readSerial()
     time.sleep(5)
